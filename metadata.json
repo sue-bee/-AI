@@ -1,0 +1,5 @@
+{
+  "name": "Songcheng AI Couplet Studio",
+  "description": "An educational platform for learning neural networks (FNN, RNN, LSTM) through the lens of a smart couplet generation system for Hangzhou Songcheng.",
+  "requestFramePermissions": []
+}
