@@ -28,8 +28,9 @@ const NetworkVisualizer: React.FC<Props> = ({ modelType, stepIndex, setStepIndex
   const pathBase = `${baseClass} fill-none stroke-gray-300 stroke-2 cursor-pointer hover:stroke-blue-400`;
   
   // Highlight Styles
-  const highlightNode = "!stroke-orange-500 !stroke-[4px] filter drop-shadow-md scale-110 !fill-orange-50";
-  const highlightPath = "!stroke-orange-500 !stroke-[4px] filter drop-shadow-md opacity-100";
+  // Updated with custom animation class defined in style tag below
+  const highlightNode = "!stroke-orange-500 !stroke-[4px] !fill-orange-50 animate-gate-pulse";
+  const highlightPath = "!stroke-orange-500 !stroke-[4px] filter drop-shadow-md opacity-100 animate-path-pulse";
   
   // Faded Styles
   const fadedClass = "opacity-20 grayscale filter";
@@ -48,6 +49,24 @@ const NetworkVisualizer: React.FC<Props> = ({ modelType, stepIndex, setStepIndex
 
   return (
     <div className="bg-white rounded-xl shadow-sm border border-gray-100 flex flex-col h-full">
+      {/* Custom Animations */}
+      <style>{`
+        @keyframes gate-pulse {
+          0%, 100% { transform: scale(1.1); filter: drop-shadow(0 4px 6px rgba(249,115,22,0.4)); }
+          50% { transform: scale(1.25); filter: drop-shadow(0 0 12px rgba(249,115,22,0.8)); fill: #ffedd5; }
+        }
+        .animate-gate-pulse {
+          animation: gate-pulse 2s ease-in-out infinite;
+        }
+        @keyframes path-pulse {
+          0%, 100% { stroke-opacity: 1; }
+          50% { stroke-opacity: 0.7; }
+        }
+        .animate-path-pulse {
+          animation: path-pulse 2s ease-in-out infinite;
+        }
+      `}</style>
+
       {/* Header */}
       <div className="bg-gray-50 px-6 py-4 border-b border-gray-100 flex justify-between items-center shrink-0">
         <h2 className="text-lg font-bold text-gray-800 flex items-center gap-2">

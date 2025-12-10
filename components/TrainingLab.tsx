@@ -8,13 +8,16 @@ interface Props {
 }
 
 const PRESET_COUPLETS = [
-  "宋城千古情", // Short
-  "西湖美景三月天", // Medium
-  "春风吹柳绿", // Short simple
-  "断桥残雪寻芳迹", // Medium
-  "八百里湖山知是何年图画", // Long (Classic)
-  "烟雨迷蒙锁西湖，断桥伞下觅情缘", // Long (Complex Context)
-  "看今朝宋城盛世，忆往昔临安繁华" // Long (Contrast/Memory heavy)
+  "宋城千古情", // Short (5)
+  "西湖美景三月天", // Medium (7)
+  "春风吹柳绿", // Short simple (5)
+  "断桥残雪寻芳迹", // Medium (7)
+  "八百里湖山知是何年图画", // Long (11)
+  "烟雨迷蒙锁西湖，断桥伞下觅情缘", // Long (14) - Test Context
+  "看今朝宋城盛世，忆往昔临安繁华", // Long (14) - Test Memory
+  "欲把西湖比西子，淡妆浓抹总相宜", // Long (14) - 测试 FNN 语序混乱
+  "三十功名尘与土，八千里路云和月", // Long (14) - 测试 RNN 梯度消失(忘记开头)
+  "千古宋城传佳话，万家灯火映钱塘"  // Long (14) - 测试 LSTM 完美记忆
 ];
 
 const TrainingLab: React.FC<Props> = ({ modelType }) => {
@@ -308,12 +311,13 @@ const TrainingLab: React.FC<Props> = ({ modelType }) => {
                 
                 {/* Preset Chips */}
                 <div className="flex flex-wrap gap-2 items-center">
-                  <span className="text-xs font-bold text-gray-400 mr-1">推荐上联 (建议尝试长句以区分 RNN/LSTM):</span>
+                  <span className="text-xs font-bold text-gray-400 mr-1">推荐上联:</span>
                   {PRESET_COUPLETS.map((text) => (
                     <button
                       key={text}
                       onClick={() => setTestInput(text)}
-                      className="px-3 py-1 bg-gray-50 hover:bg-blue-50 hover:text-blue-600 border border-gray-200 rounded-full text-xs text-gray-600 transition-all cursor-pointer"
+                      className="px-3 py-1 bg-gray-50 hover:bg-blue-50 hover:text-blue-600 border border-gray-200 rounded-full text-xs text-gray-600 transition-all cursor-pointer truncate max-w-[200px]"
+                      title={text}
                     >
                       {text}
                     </button>
