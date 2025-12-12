@@ -1,9 +1,7 @@
 import { ModelType, CoupletResult } from "../types";
+import { GoogleGenAI } from "@google/genai";
 
-// Google Gemini API Configuration (REST)
-// Using gemini-2.5-flash as per latest guidelines
 const MODEL_NAME = "gemini-2.5-flash";
-const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/${MODEL_NAME}:generateContent`;
 
 export const generateCouplet = async (
   upper: string,
@@ -77,42 +75,21 @@ export const generateCouplet = async (
       `;
     }
 
-    // Call Google Gemini API (REST)
-    const apiKey = process.env.API_KEY;
-    if (!apiKey) {
-      throw new Error("API Key is missing");
-    }
-
-    const response = await fetch(`${API_URL}?key=${apiKey}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
+    const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+    const response = await ai.models.generateContent({
+      model: MODEL_NAME,
+      contents: {
+        role: "user",
+        parts: [{ text: `请基于上述设定，为上联“${upper}”生成下联。请严格返回 JSON 格式: { "lower": "下联内容", "explanation": "中文解释内容" }` }]
       },
-      body: JSON.stringify({
-        systemInstruction: {
-          parts: [{ text: systemPrompt }]
-        },
-        contents: [
-          {
-            role: "user",
-            parts: [{ text: `请基于上述设定，为上联“${upper}”生成下联。请严格返回 JSON 格式: { "lower": "下联内容", "explanation": "中文解释内容" }` }]
-          }
-        ],
-        generationConfig: {
-          responseMimeType: "application/json",
-          temperature: 0.7
-        }
-      })
+      config: {
+        systemInstruction: systemPrompt,
+        responseMimeType: "application/json",
+        temperature: 0.7
+      }
     });
 
-    if (!response.ok) {
-      const errorText = await response.text();
-      throw new Error(`Gemini API Error: ${response.status} - ${errorText}`);
-    }
-
-    const data = await response.json();
-    const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
-    
+    const text = response.text;
     if (!text) throw new Error("No response from Gemini API");
 
     const result = JSON.parse(text);

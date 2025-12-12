@@ -347,27 +347,16 @@ const TrainingLab: React.FC<Props> = ({ modelType }) => {
                        </div>
                     </div>
 
-                    {/* Couplet Display */}
-                    <div className="flex flex-row justify-center gap-12 md:gap-20">
-                      {/* Upper */}
-                      <div className="flex flex-col items-center gap-2">
-                        <div className="w-10 h-10 rounded-full bg-gray-800 text-white flex items-center justify-center text-xs font-serif mb-2 shadow-lg">上联</div>
-                        <div className="bg-white px-5 py-6 rounded-lg shadow-sm border-l-4 border-gray-700 text-2xl font-serif writing-mode-vertical min-h-[200px] text-gray-800 tracking-widest">
-                          {testResult.upper}
-                        </div>
-                      </div>
-
-                      {/* Lower */}
-                      <div className="flex flex-col items-center gap-2">
-                        <div className="w-10 h-10 rounded-full bg-orange-600 text-white flex items-center justify-center text-xs font-serif mb-2 shadow-lg">下联</div>
-                        <div className="bg-white px-5 py-6 rounded-lg shadow-md border-l-4 border-orange-600 text-2xl font-serif writing-mode-vertical min-h-[200px] text-gray-800 tracking-widest">
+                    {/* Couplet Display - Simplified */}
+                    <div className="flex flex-col items-center justify-center py-6">
+                        <h4 className="text-gray-500 font-bold mb-4 text-lg">生成的下联：</h4>
+                        <div className="text-4xl font-serif text-gray-800 tracking-[0.2em] font-bold text-center leading-relaxed">
                           {testResult.lower}
                         </div>
-                      </div>
                     </div>
 
                     {/* Explanation */}
-                    <div className="bg-white p-4 rounded-xl shadow-sm border border-orange-100 text-sm text-gray-600 leading-relaxed mt-4">
+                    <div className="bg-white p-4 rounded-xl shadow-sm border border-orange-100 text-sm text-gray-600 leading-relaxed mt-2">
                       <span className="text-orange-600 font-bold block mb-1">🔍 神经网络分析:</span>
                       {testResult.explanation}
                     </div>
